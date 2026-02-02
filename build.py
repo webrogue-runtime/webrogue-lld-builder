@@ -79,10 +79,14 @@ with open(os.path.join(build_dir, "lldAsLib_deps.txt"), "r") as file:
                 libs.append(lib)
                 break
 
+out_path = os.path.join(repo_dir, "out")
+if os.path.exists(out_path):
+    os.remove(out_path)
+
 args = [
     "llvm-ar",
     "qc",
-    str(os.path.join(repo_dir, "artifacts", "libwebroguelld.a")),
+    str(out_path),
 ] + list(map(str, libs))
 
 subprocess.run(args).check_returncode()

@@ -8,8 +8,13 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-x86_64-unknown-linux-gnu:
-    runs-on: linux-latest
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        - target: x86_64-unknown-linux-gnu
+          os: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -19,15 +24,15 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: x86_64-unknown-linux-gnu
+          name: ${{ matrix.target }}
           path: |
-            artifacts/libwebroguelld.a
+            artifacts/out
   
   release:
     runs-on: ubuntu-slim
     permissions:
       contents: write
-    needs: [build-x86_64-unknown-linux-gnu]
+    needs: [build]
     steps:
 
     - uses: actions/download-artifact@v4
