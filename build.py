@@ -1,5 +1,19 @@
 import os
 import subprocess
+import sys
+
+arg = sys.argv[1]
+
+def find_llvm_tool(name, version_arg):
+    for version in range(26, 16, -1):
+        versioned_name = f"{name}-{version}"
+        try:
+            if subprocess.run([versioned_name, version_arg]).returncode == 0:
+                return versioned_name
+        except FileNotFoundError:
+            pass
+    raise ValueError(f"{name} not found")
+
 
 repo_dir = os.path.dirname(os.path.realpath(__file__))
 build_dir = os.path.join(repo_dir, "build")
@@ -36,7 +50,8 @@ define("LLVM_ENABLE_TERMINFO", "OFF")
 define("LLVM_TARGETS_TO_BUILD", "")
 define("CMAKE_BUILD_TYPE", "Release")
 
-if os.name == 'nt': 
+if os.name == 'nt':
+    # Windows
     define("CMAKE_C_FLAGS_DEBUG", "/Zi /Ob0 /Od /RTC1 -MT")
     define("CMAKE_C_FLAGS_RELEASE", "/O2 /Ob2 /DNDEBUG -MT")
     define("CMAKE_C_FLAGS_MINSIZEREL", "/O1 /Ob1 /DNDEBUG -MT")
@@ -48,6 +63,12 @@ if os.name == 'nt':
     define("CMAKE_MSVC_RUNTIME_LIBRARY", "MultiThreaded")
     define("LLVM_DISABLE_ASSEMBLY_FILES", "ON")
     args.append(f"-Thost=x64")
+elif sys.platform == "darwin":
+    # macOS
+    define("CMAKE_OSX_ARCHITECTURES", arg)
+else:
+    # linux
+    pass
     
 
 subprocess.run(args).check_returncode()
@@ -84,7 +105,7 @@ if os.path.exists(out_path):
     os.remove(out_path)
 
 args = [
-    "llvm-ar",
+    find_llvm_tool("llvm-ar", "--version"),
     "qc",
     str(out_path),
 ] + list(map(str, libs))

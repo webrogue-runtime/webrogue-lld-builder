@@ -2,6 +2,8 @@
 name: build
 
 on:
+  schedule:
+    - cron: "0 0 * * 0"
   push:
     branches:
       - main
@@ -15,13 +17,22 @@ jobs:
         include:
           - target: x86_64-unknown-linux-gnu
             os: ubuntu-latest
+            arg: x86_64
+        include:
+          - target: x86_64-apple-darwin
+            os: macos-latest
+            arg: x86_64
+        include:
+          - target: aarch64-apple-darwin
+            os: macos-latest
+            arg: arm64
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Build
-        run: python3 ./build.py
+        run: python3 ./build.py ${{ matrix.arg }}
 
       - uses: actions/upload-artifact@v4
         with:
