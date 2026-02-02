@@ -18,9 +18,11 @@ jobs:
           - target: x86_64-unknown-linux-gnu
             os: ubuntu-latest
             arg: x86_64
+
           - target: x86_64-apple-darwin
             os: macos-latest
             arg: x86_64
+
           - target: aarch64-apple-darwin
             os: macos-latest
             arg: arm64
@@ -37,19 +39,28 @@ jobs:
           name: ${{ matrix.target }}
           path: |
             artifacts/out
-  
+
   release:
     runs-on: ubuntu-slim
     permissions:
       contents: write
     needs: [build]
     steps:
-
     - uses: actions/download-artifact@v4
       with: 
         name: x86_64-unknown-linux-gnu
         path: x86_64-unknown-linux-gnu
-      
+
+    - uses: actions/download-artifact@v4
+      with: 
+        name: x86_64-apple-darwin
+        path: x86_64-apple-darwin
+
+    - uses: actions/download-artifact@v4
+      with: 
+        name: aarch64-apple-darwin
+        path: aarch64-apple-darwin
+
     - name: make artifacts
       run: |
         mkdir artifacts

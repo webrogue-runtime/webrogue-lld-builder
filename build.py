@@ -106,7 +106,7 @@ if os.path.exists(out_path):
 
 args = [
     find_llvm_tool("llvm-ar", "--version"),
-    "qc",
+    "qLcs",
     str(out_path),
 ] + list(map(str, libs))
 
