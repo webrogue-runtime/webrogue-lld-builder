@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-linux:
+  build-x86_64-unknown-linux-gnu:
     runs-on: linux-latest
     steps:
       - name: Checkout
@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-slim
     permissions:
       contents: write
-    needs: [build-windows]
+    needs: [build-x86_64-unknown-linux-gnu]
     steps:
 
     - uses: actions/download-artifact@v4
