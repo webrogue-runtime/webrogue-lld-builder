@@ -64,14 +64,13 @@ if os.name == 'nt':
     define("CMAKE_CXX_FLAGS_RELWITHDEBINFO", "/Zi /O2 /Ob1 /DNDEBUG -MT")
     define("CMAKE_MSVC_RUNTIME_LIBRARY", "MultiThreaded")
     define("LLVM_DISABLE_ASSEMBLY_FILES", "ON")
-    args.append(f"-Thost=x64")
+    args.append(f"-Thost={arg}")
 elif sys.platform == "darwin":
     # macOS
     define("CMAKE_OSX_ARCHITECTURES", arg)
 else:
     # linux
     pass
-    
 
 subprocess.run(args).check_returncode()
 
@@ -111,5 +110,4 @@ args = [
     "qLcs",
     str(out_path),
 ] + list(map(str, libs))
-
 subprocess.run(args).check_returncode()
