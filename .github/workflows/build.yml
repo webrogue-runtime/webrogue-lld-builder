@@ -37,7 +37,7 @@ jobs:
 
       - name: Install LLVM
         if: matrix.os == 'macos-latest'
-        run:
+        run: |
           brew install llvm
           export PATH="$(brew --prefix llvm)/bin:$PATH"
 
