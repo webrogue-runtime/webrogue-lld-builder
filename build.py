@@ -92,18 +92,23 @@ subprocess.run(args).check_returncode()
 
 lib_search_paths = [
     build_dir,
-    os.path.join(build_dir, "llvm-project", "llvm", "lib")
+    os.path.join(build_dir, "llvm-project", "llvm", "lib"),
+    os.path.join(build_dir, "llvm-project", "llvm", "lib64")
 ]
 
 libs = []
 
 with open(os.path.join(build_dir, "lldAsLib_deps.txt"), "r") as file:
     for lib_name in file.read().strip().split(";"):
+        found = False
         for lib_search_path in lib_search_paths:
             lib = os.path.join(lib_search_path, f"lib{lib_name}.a")
             if os.path.exists(lib):
                 libs.append(lib)
+                found = True
                 break
+        if not found:
+            raise ValueError(f"{lib_name} not found")
 
 out_path = os.path.join(repo_dir, "out")
 if os.path.exists(out_path):
