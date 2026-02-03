@@ -95,6 +95,8 @@ subprocess.run(args).check_returncode()
 
 lib_search_paths = [
     build_dir,
+    os.path.join(build_dir, "llvm-project", "llvm", "Release", "lib"),
+    os.path.join(build_dir, "Release"),
     os.path.join(build_dir, "llvm-project", "llvm", "lib"),
     os.path.join(build_dir, "llvm-project", "llvm", "lib64")
 ]
