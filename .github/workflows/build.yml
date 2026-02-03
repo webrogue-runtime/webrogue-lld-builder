@@ -48,7 +48,12 @@ jobs:
           echo "C:\Program Files\LLVM\bin" >> $env:GITHUB_PATH
 
       - name: Build
+        if: matrix.os != 'ubuntu-latest'
         run: python3 ./build.py ${{ matrix.arg }}
+
+      - name: Build in Docker
+        if: matrix.os == 'ubuntu-latest'
+        run: sh build_linux.sh ${{ matrix.arg }}
 
       - uses: actions/upload-artifact@v4
         with:
