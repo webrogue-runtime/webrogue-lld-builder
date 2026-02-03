@@ -5,8 +5,11 @@ import sys
 arg = sys.argv[1]
 
 def find_llvm_tool(name, version_arg):
-    if subprocess.run([name, version_arg]).returncode == 0:
-        return name
+    try:
+        if subprocess.run([name, version_arg]).returncode == 0:
+            return name
+    except FileNotFoundError:
+        pass
     for version in range(26, 16, -1):
         versioned_name = f"{name}-{version}"
         try:
