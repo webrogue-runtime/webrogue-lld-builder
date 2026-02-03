@@ -16,6 +16,7 @@ def find_llvm_tool(name, version_arg):
             pass
     raise ValueError(f"{name} not found")
 
+llvm_ar = find_llvm_tool("llvm-ar", "--version")
 
 repo_dir = os.path.dirname(os.path.realpath(__file__))
 build_dir = os.path.join(repo_dir, "build")
@@ -106,7 +107,7 @@ if os.path.exists(out_path):
     os.remove(out_path)
 
 args = [
-    find_llvm_tool("llvm-ar", "--version"),
+    llvm_ar,
     "qLcs",
     str(out_path),
 ] + list(map(str, libs))
