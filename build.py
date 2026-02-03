@@ -68,7 +68,10 @@ if os.name == 'nt':
     define("CMAKE_CXX_FLAGS_RELWITHDEBINFO", "/Zi /O2 /Ob1 /DNDEBUG -MT")
     define("CMAKE_MSVC_RUNTIME_LIBRARY", "MultiThreaded")
     define("LLVM_DISABLE_ASSEMBLY_FILES", "ON")
-    args.append(f"-Thost={arg}")
+    args.append("-A")
+    args.append(arg)
+    args.append("-T")
+    args.append("ClangCL")
 elif sys.platform == "darwin":
     # macOS
     define("CMAKE_OSX_ARCHITECTURES", arg)
