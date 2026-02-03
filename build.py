@@ -103,15 +103,16 @@ libs = []
 
 with open(os.path.join(build_dir, "lldAsLib_deps.txt"), "r") as file:
     for lib_name in file.read().strip().split(";"):
+        lib_file_name = f"{lib_name}.lib" if os.name == 'nt' else f"lib{lib_name}.a"
         found = False
         for lib_search_path in lib_search_paths:
-            lib = os.path.join(lib_search_path, f"lib{lib_name}.a")
+            lib = os.path.join(lib_search_path, lib_file_name)
             if os.path.exists(lib):
                 libs.append(lib)
                 found = True
                 break
         if not found:
-            raise ValueError(f"{lib_name} not found")
+            raise ValueError(f"{lib_file_name} not found")
 
 out_path = os.path.join(repo_dir, "out")
 if os.path.exists(out_path):
