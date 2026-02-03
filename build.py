@@ -30,7 +30,9 @@ if not os.path.exists(os.path.join(repo_dir, "llvm-project")):
             "clone",
             "--single-branch",
             "--depth=1",
-            "https://github.com/llvm/llvm-project.git"
+            "https://github.com/llvm/llvm-project.git",
+            "-b",
+            "release/18.x"
         ],
         cwd=repo_dir
     ).check_returncode()
