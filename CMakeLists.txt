@@ -5,6 +5,9 @@ add_subdirectory(llvm-project/llvm EXCLUDE_FROM_ALL)
 project(webrogue_linker CXX)
 
 add_library(lldAsLib STATIC lldAsLib.cpp)
+if(UNIX AND NOT APPLE)
+    set_target_properties(lldAsLib PROPERTIES POSITION_INDEPENDENT_CODE ON)
+endif()
 
 set(libs lldCommon lldCOFF lldELF lldMachO lldMinGW lldWasm LLVMExecutionEngine) #  LLVMSupport LLVMCodeGen LLVMCore LLVMDebugInfoDWARF LLVMDemangle LLVMMC LLVMOption LLVMTarget LLVMTargetParser
 
