@@ -16,8 +16,12 @@ jobs:
       matrix:
         include:
           - target: x86_64-unknown-linux-gnu
-            os: ubuntu-latest
+            os: ubuntu-24.04
             arg: x86_64
+
+          - target: aarch64-unknown-linux-gnu
+            os: ubuntu-24.04-arm
+            arg: aarch64
 
           - target: x86_64-apple-darwin
             os: macos-latest
@@ -36,23 +40,23 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install LLVM (macOS)
-        if: matrix.os == 'macos-latest'
+        if: startsWith(matrix.os, 'macos')
         run: |
           brew install llvm
           echo "$(brew --prefix llvm)/bin" >> $GITHUB_PATH
 
       - name: Install LLVM (Windows)
-        if: matrix.os == 'windows-latest'
+        if: startsWith(matrix.os, 'windows')
         run: |
           choco install llvm --yes
           echo "C:\Program Files\LLVM\bin" >> $env:GITHUB_PATH
 
       - name: Build
-        if: matrix.os != 'ubuntu-latest'
+        if: startsWith(matrix.os, 'ubuntu') == false
         run: python3 ./build.py ${{ matrix.arg }}
 
       - name: Build in Docker
-        if: matrix.os == 'ubuntu-latest'
+        if: startsWith(matrix.os, 'ubuntu')
         run: sh build_linux.sh ${{ matrix.arg }}
 
       - uses: actions/upload-artifact@v4
@@ -73,6 +77,11 @@ jobs:
 
     - uses: actions/download-artifact@v4
       with: 
+        name: aarch64-unknown-linux-gnu
+        path: aarch64-unknown-linux-gnu
+
+    - uses: actions/download-artifact@v4
+      with: 
         name: x86_64-apple-darwin
         path: x86_64-apple-darwin
 
@@ -90,6 +99,7 @@ jobs:
       run: |
         mkdir artifacts
         cp x86_64-unknown-linux-gnu/out artifacts/x86_64-unknown-linux-gnu
+        cp aarch64-unknown-linux-gnu/out artifacts/aarch64-unknown-linux-gnu
         cp x86_64-apple-darwin/out artifacts/x86_64-apple-darwin
         cp aarch64-apple-darwin/out artifacts/aarch64-apple-darwin
         cp x86_64-pc-windows-msvc/out artifacts/x86_64-pc-windows-msvc

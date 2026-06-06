@@ -1,4 +1,6 @@
-FROM quay.io/pypa/manylinux_2_28_x86_64
+ARG ARCH
+FROM quay.io/pypa/manylinux_2_28_${ARCH}
+ARG ARCH
 
 RUN dnf -y install gcc git-core make cmake llvm
 RUN mkdir /app
@@ -6,4 +8,4 @@ RUN git -C /app clone --single-branch --depth=1 https://github.com/llvm/llvm-pro
 COPY build.py /app/build.py
 COPY CMakeLists.txt /app/CMakeLists.txt
 COPY lldAsLib.cpp /app/lldAsLib.cpp
-RUN cd /app/ && python3 build.py x64
+RUN cd /app/ && python3 build.py ${ARCH}
