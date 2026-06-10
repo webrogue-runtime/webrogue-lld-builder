@@ -9,6 +9,10 @@ on:
       - main
   workflow_dispatch:
 
+concurrency:
+  group: build
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -17,23 +21,31 @@ jobs:
         include:
           - target: x86_64-unknown-linux-gnu
             os: ubuntu-24.04
-            arg: x86_64
+            args: gnu x86_64
 
           - target: aarch64-unknown-linux-gnu
             os: ubuntu-24.04-arm
-            arg: aarch64
+            args: gnu aarch64
+
+          - target: x86_64-unknown-linux-musl
+            os: ubuntu-24.04
+            args: musl x86_64
+
+          - target: aarch64-unknown-linux-musl
+            os: ubuntu-24.04-arm
+            args: musl aarch64
 
           - target: x86_64-apple-darwin
             os: macos-latest
-            arg: x86_64
+            args: x86_64
 
           - target: aarch64-apple-darwin
             os: macos-latest
-            arg: arm64
+            args: arm64
 
           - target: x86_64-pc-windows-msvc
             os: windows-latest
-            arg: x64
+            args: x64
 
     steps:
       - name: Checkout
@@ -53,11 +65,11 @@ jobs:
 
       - name: Build
         if: startsWith(matrix.os, 'ubuntu') == false
-        run: python3 ./build.py ${{ matrix.arg }}
+        run: python3 ./build.py ${{ matrix.args }}
 
       - name: Build in Docker
         if: startsWith(matrix.os, 'ubuntu')
-        run: sh build_linux.sh ${{ matrix.arg }}
+        run: sh build_linux.sh ${{ matrix.args }}
 
       - uses: actions/upload-artifact@v4
         with:
