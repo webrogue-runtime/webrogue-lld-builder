@@ -94,6 +94,16 @@ jobs:
 
     - uses: actions/download-artifact@v4
       with: 
+        name: x86_64-unknown-linux-musl
+        path: x86_64-unknown-linux-musl
+
+    - uses: actions/download-artifact@v4
+      with: 
+        name: aarch64-unknown-linux-musl
+        path: aarch64-unknown-linux-musl
+
+    - uses: actions/download-artifact@v4
+      with: 
         name: x86_64-apple-darwin
         path: x86_64-apple-darwin
 
@@ -112,6 +122,8 @@ jobs:
         mkdir artifacts
         cp x86_64-unknown-linux-gnu/out artifacts/x86_64-unknown-linux-gnu
         cp aarch64-unknown-linux-gnu/out artifacts/aarch64-unknown-linux-gnu
+        cp x86_64-unknown-linux-musl/out artifacts/x86_64-unknown-linux-musl
+        cp aarch64-unknown-linux-musl/out artifacts/aarch64-unknown-linux-musl
         cp x86_64-apple-darwin/out artifacts/x86_64-apple-darwin
         cp aarch64-apple-darwin/out artifacts/aarch64-apple-darwin
         cp x86_64-pc-windows-msvc/out artifacts/x86_64-pc-windows-msvc
