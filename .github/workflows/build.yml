@@ -47,6 +47,10 @@ jobs:
             os: windows-latest
             args: x64
 
+          - target: aarch64-pc-windows-msvc
+            os: windows-latest
+            args: arm64
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -117,6 +121,11 @@ jobs:
         name: x86_64-pc-windows-msvc
         path: x86_64-pc-windows-msvc
 
+    - uses: actions/download-artifact@v4
+      with: 
+        name: aarch64-pc-windows-msvc
+        path: aarch64-pc-windows-msvc
+
     - name: make artifacts
       run: |
         mkdir artifacts
@@ -127,6 +136,7 @@ jobs:
         cp x86_64-apple-darwin/out artifacts/x86_64-apple-darwin
         cp aarch64-apple-darwin/out artifacts/aarch64-apple-darwin
         cp x86_64-pc-windows-msvc/out artifacts/x86_64-pc-windows-msvc
+        cp aarch64-pc-windows-msvc/out artifacts/aarch64-pc-windows-msvc
 
     - uses: ncipollo/release-action@v1
       with:
