@@ -72,9 +72,6 @@ jobs:
         for /f "usebackq tokens=*" %%i in (`vswhere -latest -find Common7\Tools\VsDevCmd.bat`) do (
           call "%%i"
         )
-        set VCPKG_ROOT=%VCPKG_INSTALLATION_ROOT%
-        set PATH=%VCPKG_ROOT%;%PATH%
-        where vcpkg
         python3 ./build.py ${{ matrix.args }}
 
     - name: Build (Linux)

@@ -1,4 +1,5 @@
 /build
+/build_host
 /llvm-project
 /out
 /.cache
