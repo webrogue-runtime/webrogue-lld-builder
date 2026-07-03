@@ -60,6 +60,8 @@ define("CMAKE_BUILD_TYPE", "Release")
 
 if os.name == 'nt':
     # Windows
+    define("CMAKE_TOOLCHAIN_FILE", os.getenv("VCPKG_ROOT") + "/scripts/buildsystems/vcpkg.cmake")
+    define("VCPKG_TARGET_TRIPLET", arg + "-windows")
     define("CMAKE_C_FLAGS_DEBUG", "/Zi /Ob0 /Od /RTC1 -MT")
     define("CMAKE_C_FLAGS_RELEASE", "/O2 /Ob2 /DNDEBUG -MT")
     define("CMAKE_C_FLAGS_MINSIZEREL", "/O1 /Ob1 /DNDEBUG -MT")
@@ -70,10 +72,6 @@ if os.name == 'nt':
     define("CMAKE_CXX_FLAGS_RELWITHDEBINFO", "/Zi /O2 /Ob1 /DNDEBUG -MT")
     define("CMAKE_MSVC_RUNTIME_LIBRARY", "MultiThreaded")
     define("LLVM_DISABLE_ASSEMBLY_FILES", "ON")
-    args.append("-A")
-    args.append(arg)
-    args.append("-T")
-    args.append("ClangCL")
 elif sys.platform == "darwin":
     # macOS
     define("CMAKE_OSX_ARCHITECTURES", arg)
