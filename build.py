@@ -93,7 +93,7 @@ if os.name == 'nt':
     define("CMAKE_CXX_FLAGS_RELWITHDEBINFO", "/Zi /O2 /Ob1 /DNDEBUG -MT")
     define("CMAKE_MSVC_RUNTIME_LIBRARY", "MultiThreaded")
     define("LLVM_DISABLE_ASSEMBLY_FILES", "ON")
-    define("-DLLVM_NATIVE_TOOL_DIR", os.getcwd() + "/build_host/Release/bin")
+    define("LLVM_NATIVE_TOOL_DIR", os.getcwd() + "/build_host/Release/bin")
     args.append("-A")
     args.append(arg)
     args.append("-T")
