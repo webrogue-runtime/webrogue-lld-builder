@@ -61,17 +61,17 @@ jobs:
           brew install llvm
           echo "$(brew --prefix llvm)/bin" >> $GITHUB_PATH
 
-      - name: Install LLVM (Windows)
+      - name: Initialize MSVC environment (Windows)
         if: startsWith(matrix.os, 'windows')
-        run: |
-          choco install llvm --yes
-          echo "C:\Program Files\LLVM\bin" >> $env:GITHUB_PATH
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64_${{ matrix.args }}
 
-      - name: Build
+      - name: Build (macOS or Windows)
         if: startsWith(matrix.os, 'ubuntu') == false
         run: python3 ./build.py ${{ matrix.args }}
 
-      - name: Build in Docker
+      - name: Build (Linux)
         if: startsWith(matrix.os, 'ubuntu')
         run: sh build_linux.sh ${{ matrix.args }}
 
