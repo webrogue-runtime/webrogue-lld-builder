@@ -43,13 +43,12 @@ jobs:
             os: macos-latest
             args: arm64
 
-          # Runners here are swapped intentionally to ensure that crosscompilation works
           - target: x86_64-pc-windows-msvc
             os: windows-11-arm
             args: x64
 
           - target: aarch64-pc-windows-msvc
-            os: windows-2025-vs2026
+            os: windows-11-arm
             args: arm64
 
     steps:

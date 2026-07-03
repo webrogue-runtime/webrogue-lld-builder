@@ -94,6 +94,8 @@ if os.name == 'nt':
     define("CMAKE_MSVC_RUNTIME_LIBRARY", "MultiThreaded")
     define("LLVM_DISABLE_ASSEMBLY_FILES", "ON")
     define("LLVM_NATIVE_TOOL_DIR", os.getcwd() + "/build_host/Release/bin")
+    define("LLVM_TABLEGEN", os.getcwd() + "/build_host/Release/bin/llvm-tblgen.exe")
+    define("CLANG_TABLEGEN", os.getcwd() + "/build_host/Release/bin/clang-tblgen.exe")
     args.append("-A")
     args.append(arg)
     args.append("-T")
