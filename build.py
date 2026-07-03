@@ -61,7 +61,7 @@ define("CMAKE_BUILD_TYPE", "Release")
 if os.name == 'nt':
     # Windows
     define("CMAKE_TOOLCHAIN_FILE", os.getenv("VCPKG_ROOT") + "/scripts/buildsystems/vcpkg.cmake")
-    define("VCPKG_TARGET_TRIPLET", arg + "-windows")
+    define("VCPKG_TARGET_TRIPLET", arg + "-windows-static")
     define("CMAKE_C_FLAGS_DEBUG", "/Zi /Ob0 /Od /RTC1 -MT")
     define("CMAKE_C_FLAGS_RELEASE", "/O2 /Ob2 /DNDEBUG -MT")
     define("CMAKE_C_FLAGS_MINSIZEREL", "/O1 /Ob1 /DNDEBUG -MT")
